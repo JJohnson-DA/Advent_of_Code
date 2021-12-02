@@ -16,10 +16,10 @@ import pandas as pd
 
 data = pd.read_csv("../data/day_1_data.txt", header=0, names=["depth"])
 
-# Calc rolling window and shift for comparison
+# Calc rolling window, shift, and determine if depth ncreased
 data["rolling_3"] = data.depth.rolling(3, min_periods=3).sum()
 data["shifted"] = data.rolling_3.shift(1)
-
-# Determine if rolling depth increased and print the total increase
 data["increase"] = data.rolling_3 > data.shifted
+
+# Print number of depth increases
 print(f"The depth increased {data.increase.sum()} times.")
