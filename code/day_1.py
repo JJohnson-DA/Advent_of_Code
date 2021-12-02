@@ -2,7 +2,8 @@
 # PART 1 ---------------------------------------------------------------------
 import pandas as pd
 
-data = pd.read_csv("../data/day_1_data.txt", header=0, names=["depth"])
+data = pd.read_csv("../data/day_1_data.txt", header=None)
+data.columns = ['depth']
 
 # Shift values and determine if it increased
 data["shifted"] = data.shift(1)
@@ -14,7 +15,8 @@ print(f"The depth increased {data.increase.sum()} times.")
 # PART 2 ---------------------------------------------------------------------
 import pandas as pd
 
-data = pd.read_csv("../data/day_1_data.txt", header=0, names=["depth"])
+data = pd.read_csv("../data/day_1_data.txt", header=None)
+data.columns = ['depth']
 
 # Calc rolling window, shift, and determine if depth ncreased
 data["rolling_3"] = data.depth.rolling(3, min_periods=3).sum()
