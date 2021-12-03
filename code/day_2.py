@@ -1,44 +1,70 @@
 #%%
 # PART 1 ---------------------------------------------------------------------
-import pandas as pd
+def get_file(filepath):
+    with open(filepath) as f:
+        data = f.readlines()
+        data = [x.rstrip() for x in data]
+    return data
 
-data = pd.read_csv("../data/day_2_data.txt", header=None)
-data.columns = ["direction"]
 
-data["spaces"] = data.direction.apply(lambda x: int(x.split(" ")[1]))
-data["direction"] = data.direction.apply(lambda x: x.split(" ")[0])
+def get_position(data):
+    depth = 0
+    position = 0
 
-forward = data[data.direction == "forward"].spaces.sum()
-down = data[data.direction == "down"].spaces.sum()
-up = data[data.direction == "up"].spaces.sum()
+    for d in data:
+        direction = d.split()[0]
+        val = int(d.split()[1])
+        if direction == "forward":
+            position += val
+        elif direction == "up":
+            depth -= val
+        elif direction == "down":
+            depth += val
 
-height = down - up
+    return depth, position
 
-print(f"Position is {height * forward}.")
-# %%
-# PART 2 ---------------------------------------------------------------------
-data = pd.read_csv("../data/day_2_data.txt", header=None)
-data.columns = ["direction"]
-data["spaces"] = data.direction.apply(lambda x: int(x.split(" ")[1]))
-data["direction"] = data.direction.apply(lambda x: x.split(" ")[0])
 
-aim = 0
-depth = 0
-forward = 0
+def main():
+    directions = get_file("../data/day_2_data.txt")
+    depth, position = get_position(directions)
+    print(f"Position (depth*forward) is {depth*position}")
 
-for row in data.index:
-    direction = data.loc[row, "direction"]
-    val = data.loc[row, "spaces"]
-    if direction == "down":
-        # depth += val
-        aim += val
-    elif direction == "up":
-        # depth -= val
-        aim -= val
-    elif direction == "forward":
-        forward += val
-        depth = depth + (aim * val)
 
-print(f"Position is {depth * forward}.")
+if __name__ == "__main__":
+    main()
 
 # %%
+# PART 2 -----------------------------------------------------------------------
+def get_file(filepath):
+    with open(filepath) as f:
+        data = f.readlines()
+        data = [x.rstrip() for x in data]
+    return data
+
+
+def get_position(data):
+    aim = 0
+    depth = 0
+    forward = 0
+
+    for d in data:
+        direction = d.split()[0]
+        val = int(d.split()[1])
+        if direction == "down":
+            aim += val
+        elif direction == "up":
+            aim -= val
+        elif direction == "forward":
+            forward += val
+            depth = depth + (aim * val)
+    return depth, forward
+
+
+def main():
+    directions = read_data("../data/day_2_data.txt")
+    depth, position = get_position(directions)
+    print(f"Position (depth*forward) is {depth*position}")
+
+
+if __name__ == "__main__":
+    main()
