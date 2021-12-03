@@ -60,6 +60,17 @@ def get_oxygen(data):
             ind_list.append(ind)
         # Determine counts of each digit in each item in ind_list
         freq = collections.Counter(ind_list)
-        val = str()
-        for l in ind_list:
-            val += max(set(l), key=l.count)
+        # Determine max value key
+        if freq['0'] > freq['1']: 
+            digit = '0'
+        elif freq['1'] > freq['0']: 
+            digit = '1'
+        else: 
+            digit = '1'
+        # if digit in position is correct, append to keep_list
+        for d in master_list:
+            if d[i] == digit:
+                keep_list.append(d)
+        master_list = keep_list
+        if len(master_list) ==1:
+            break
