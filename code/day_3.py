@@ -37,20 +37,29 @@ print(f"Result is {result}")
 
 
 # %% Part 2 --------------------------------------------------------------------
+import collections
+
 def get_file(filepath):
     with open(filepath) as f:
         data = f.readlines()
         data = [x.rstrip() for x in data]
     return data
 
+def get_oxygen(data):
+    # list to edit and return at the end, will be overwritten multiple times
+    master_list = data
 
-for i in range(len(data[0])):
-    ind_list = []
-    for d in data:
-        ind = []
-        ind.append(d[i])
-        ind_list.append(ind)
-
-    val = str()
-    for l in ind_list:
-        val += max(set(l), key=l.count)
+    # Loop over each position in the binary sequences
+    for i in range(len(master_list[0])):
+        keep_list = []
+        ind_list = []
+        # Loop and append lists of the digits in each position
+        for d in master_list:
+            ind = []
+            ind.append(d[i])
+            ind_list.append(ind)
+        # Determine counts of each digit in each item in ind_list
+        freq = collections.Counter(ind_list)
+        val = str()
+        for l in ind_list:
+            val += max(set(l), key=l.count)
